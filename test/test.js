@@ -1,8 +1,8 @@
 const DVideo = artifacts.require('./DVideo.sol')
 
-require('chai')
-  .use(require('chai-as-promised'))
-  .should()
+import("chai").then(chai => {
+  chai.use(require("chai-as-promised")).should()
+})
 
 contract('DVideo', ([deployer, author]) => {
   let dvideo
@@ -37,7 +37,7 @@ contract('DVideo', ([deployer, author]) => {
 
     //check event
     it('creates videos', async () => {
-      // SUCESS
+      // SUCCESS
       assert.equal(videoCount, 1)
       const event = result.logs[0].args
       assert.equal(event.id.toNumber(), videoCount.toNumber(), 'id is correct')
