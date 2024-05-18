@@ -5,10 +5,15 @@ import Main from './Main'
 import Web3 from 'web3';
 import './App.css';
 
-//Declare IPFS
-const ipfsClient = require('ipfs-http-client')
-const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' }) // leaving out the arguments will default to these values
+// Import the 'create' function from 'ipfs-http-client'
+import { create } from 'ipfs-http-client';
 
+// Declare IPFS client with custom configuration
+const ipfs = create({
+  host: 'ipfs.infura.io',
+  port: 5001,
+  protocol: 'https'
+});
 class App extends Component {
 
   async componentWillMount() {
