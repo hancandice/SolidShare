@@ -14,7 +14,8 @@ class Navbar extends Component {
           rel="noopener noreferrer"
         >
           <img src={dvideo} width="30" height="30" className="d-inline-block align-top" alt="" />
-          &nbsp;DVide0
+          &nbsp;SolidShare
+         
         </a>
         <ul className="navbar-nav px-3">
           <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
@@ -22,8 +23,8 @@ class Navbar extends Component {
               <small id="account">{/* Account... */}</small>
             </small>
               {/* Return Account&Identicon... */}
-              <b className="text-white">0x0</b>
           </li>
+          <b className="text-white">0x0</b>
         </ul>
       </nav>
     );
