@@ -1,27 +1,34 @@
-import React, { Component } from 'react';
-import DVideo from '../abis/DVideo.json'
-import Navbar from './Navbar'
-import Main from './Main'
+import React, { useEffect, useState } from 'react';
+import Navbar from './Navbar';
+import Main from './Main';
 import Web3 from 'web3';
+import { create } from 'ipfs-http-client';
 import './App.css';
 
-// Import the 'create' function from 'ipfs-http-client'
-import { create } from 'ipfs-http-client';
-
-// Declare IPFS client with custom configuration
 const ipfs = create({
   host: 'ipfs.infura.io',
   port: 5001,
   protocol: 'https'
 });
-class App extends Component {
 
-  async componentWillMount() {
-    await this.loadWeb3()
-    await this.loadBlockchainData()
-  }
+const App = () => {
+  const [loading, setLoading] = useState(true); 
 
-  async loadWeb3() {
+  useEffect(() => {
+    const initialSetup = async () => {
+      try {
+        await loadWeb3();
+        await loadBlockchainData();
+        setLoading(false); 
+      } catch (error) {
+        console.error('Error loading blockchain data:', error);
+      }
+    };
+
+    initialSetup();
+  }, []);
+
+  const loadWeb3 = async () => {
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum)
       await window.ethereum.enable()
@@ -32,9 +39,9 @@ class App extends Component {
     else {
       window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
     }
-  }
-
-  async loadBlockchainData() {
+  };
+  
+  const loadBlockchainData = async () => {
     const web3 = window.web3
     //Load accounts
     //Add first account the the state
@@ -55,48 +62,35 @@ class App extends Component {
       //Set loading state to false
 
       //If network data doesn't exisits, log error
-  }
+  };
 
-  //Get video
-  captureFile = event => {
+  // Get video
+  const captureFile = event => {
+    // Implementation
+  };
 
-  }
+  // Upload video
+  const uploadVideo = title => {
+    // Implementation
+  };
 
-  //Upload video
-  uploadVideo = title => {
+  // Change Video
+  const changeVideo = (hash, title) => {
+    // Implementation
+  };
 
-  }
-
-  //Change Video
-  changeVideo = (hash, title) => {
-
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: false
-      //set states
-    }
-
-    //Bind functions
-  }
-
-  render() {
-    return (
-      <div>
-        <Navbar 
-          //Account
-        />
-        { this.state.loading
-          ? <div id="loader" className="text-center mt-5"><p>Loading...</p></div>
-          : <Main
-              //states&functions
-            />
-        }
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <Navbar />
+      {loading ? (
+        <div id="loader" className="text-center mt-5">
+          <p>Loading...</p>
+        </div>
+      ) : (
+        <Main />
+      )}
+    </div>
+  );
+};
 
 export default App;
