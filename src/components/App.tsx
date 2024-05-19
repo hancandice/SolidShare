@@ -25,7 +25,6 @@ const App: React.FC = () => {
   const [dVideo, setDVideo] = useState<any>(null); // State for DVideo contract
   const [videoAmounts, setVideoAmounts] = useState<number>(0); // State for video amounts
   const [videos, setVideos] = useState<any[]>([]); // State for videos
-   const latestVideo = videos[0]  
 
   useEffect(()=> {
 
@@ -104,17 +103,17 @@ const App: React.FC = () => {
 
   // Get video
   const captureFile = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    // Implementation
+    console.log("event", event)
   };
 
   // Upload video
   const uploadVideo = (title: string): void => {
-    // Implementation
+    console.log("title", title)
   };
 
   // Change Video
   const changeVideo = (hash: string, title: string): void => {
-    // Implementation
+    
   };
 
   return (
@@ -124,9 +123,12 @@ const App: React.FC = () => {
         <div id="loader" className="text-center mt-5">
           <p>Loading...</p>
         </div>
-      ) : (
-        <Main />
-      )}
+      ) : <Main 
+            videos={videos} 
+            captureFile={captureFile} 
+            uploadVideo={uploadVideo} 
+            changeVideo={changeVideo}
+          />}
     </div>
   );
 };
