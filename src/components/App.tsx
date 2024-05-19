@@ -56,7 +56,7 @@ const App: React.FC = () => {
     const web3 = window.web3;
     //Load accounts
     const loadedAccounts = await web3.eth.getAccounts();
-    console.log(loadedAccounts)
+    console.log("loadedAccounts", loadedAccounts)
     setAccounts(loadedAccounts);
 
     //Get network ID

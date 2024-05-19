@@ -18,14 +18,16 @@ const Navbar: React.FC<NavbarProps> = ({ account }) => {
         <img src={dvideo} width="30" height="30" className="d-inline-block align-top" alt="" />
         &nbsp;SolidShare
       </a>
-      <ul className="navbar-nav px-3">
-        <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
-          <small className="text-secondary">
-            <small id="account">{account}</small>
-          </small>
-        </li>
-        <b className="text-white">{account}</b>
-      </ul>
+      <div className="d-flex">
+        <ul className="navbar-nav px-3">
+          <li className="nav-item text-nowrap d-sm-block">
+            <small className="text-secondary">
+              <small id="account">{account}</small>
+            </small>
+          </li>
+        </ul>
+        {account && <img className='ml-2' width={30} height={30} src={`data:image/png;base64,${new Identicon(account, 30)}`} />}
+      </div>
     </nav>
   );
 };
