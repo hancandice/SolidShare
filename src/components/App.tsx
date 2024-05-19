@@ -11,9 +11,16 @@ const ipfs = create({
   protocol: 'https'
 });
 
-const App = () => {
-  const [loading, setLoading] = useState(true); 
-  const [accounts, setAccounts] = useState([]);
+declare global {
+  interface Window {
+    ethereum?: any; 
+    web3?: any; 
+  }
+};
+
+const App: React.FC = () => {
+  const [loading, setLoading] = useState<boolean>(true); 
+  const [accounts, setAccounts] = useState<string[]>([]);
 
   useEffect(() => {
     const initialSetup = async () => {
@@ -44,18 +51,16 @@ const App = () => {
       console.error('Error loading web3:', error);
     }
   };
-  
-  
-  
+
   const loadBlockchainData = async () => {
-    const web3 = window.web3
+    const web3 = window.web3;
     //Load accounts
-    const accounts = await web3.eth.getAccounts()
-    console.log(accounts)
-    setAccounts(accounts)
+    const loadedAccounts = await web3.eth.getAccounts();
+    console.log(loadedAccounts)
+    setAccounts(loadedAccounts);
 
     //Get network ID
-    const networkId = await web3.eth.net.getId()
+    const networkId = await web3.eth.net.getId();
     //Get network data
   
     //Check if net data exists, then
@@ -75,23 +80,23 @@ const App = () => {
   };
 
   // Get video
-  const captureFile = event => {
+  const captureFile = (event: React.ChangeEvent<HTMLInputElement>): void => {
     // Implementation
   };
 
   // Upload video
-  const uploadVideo = title => {
+  const uploadVideo = (title: string): void => {
     // Implementation
   };
 
   // Change Video
-  const changeVideo = (hash, title) => {
+  const changeVideo = (hash: string, title: string): void => {
     // Implementation
   };
 
   return (
     <div>
-      <Navbar />
+      <Navbar account={accounts[0]} />
       {loading ? (
         <div id="loader" className="text-center mt-5">
           <p>Loading...</p>
