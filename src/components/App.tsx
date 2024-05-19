@@ -106,9 +106,21 @@ const App: React.FC = () => {
     }
   };
 
-  const uploadVideo = (title: string): void => {
+  const uploadVideo = async (title: string): Promise<void> => {
     console.log("Uploading file to IPFS...", {videoTitle: title})
-    ipfs.add(buffer)
+
+    // Add to IPFS...
+    try {
+    // Add file to IPFS
+    const added = await ipfs.add(buffer);
+    // Extract the hash of the uploaded file
+    const hash = added.path;
+    await dVideo.methods.uploadVideo(hash, title).send({from: account}).on("transactionHash", ()=> {
+      setLoading(false)
+    })
+  } catch (error) {
+    console.error("Error uploading file to IPFS:", error);
+  }
   };
 
   const changeVideo = (hash: string, title: string): void => {
