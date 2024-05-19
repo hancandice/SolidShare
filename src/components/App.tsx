@@ -25,13 +25,7 @@ const App: React.FC = () => {
   const [dVideo, setDVideo] = useState<any>(null); // State for DVideo contract
   const [videoAmounts, setVideoAmounts] = useState<number>(0); // State for video amounts
   const [videos, setVideos] = useState<any[]>([]); // State for videos
-
-  useEffect(()=> {
-
-    console.log({loading, account, dVideo, videoAmounts, videos})
-
-  },[loading, account, dVideo, videoAmounts, videos])
-
+  const [buffer, setBuffer] = useState<Uint8Array>();
 
   useEffect(() => {
     const initialSetup = async () => {
@@ -101,17 +95,22 @@ const App: React.FC = () => {
     setLoading(false);   
   };
 
-  // Get video
   const captureFile = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    console.log("event", event)
+    event.preventDefault();
+    const file = event.target.files[0];
+    const reader = new window.FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onloadend = () => {
+      const uint8Array = new Uint8Array(reader.result as ArrayBuffer);
+      setBuffer(uint8Array)
+    }
   };
 
-  // Upload video
   const uploadVideo = (title: string): void => {
-    console.log("title", title)
+    console.log("Uploading file to IPFS...", {videoTitle: title})
+    ipfs.add(buffer)
   };
 
-  // Change Video
   const changeVideo = (hash: string, title: string): void => {
     
   };
