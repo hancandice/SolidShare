@@ -13,6 +13,7 @@ const ipfs = create({
 
 const App = () => {
   const [loading, setLoading] = useState(true); 
+  const [accounts, setAccounts] = useState([]);
 
   useEffect(() => {
     const initialSetup = async () => {
@@ -29,25 +30,34 @@ const App = () => {
   }, []);
 
   const loadWeb3 = async () => {
-    if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum)
-      await window.ethereum.enable()
-    }
-    else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider)
-    }
-    else {
-      window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
+    try {
+      if (window.ethereum) {
+        window.web3 = new Web3(window.ethereum);
+        // Request account access
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+      } else if (window.web3) {
+        window.web3 = new Web3(window.web3.currentProvider);
+      } else {
+        window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!');
+      }
+    } catch (error) {
+      console.error('Error loading web3:', error);
     }
   };
+  
+  
   
   const loadBlockchainData = async () => {
     const web3 = window.web3
     //Load accounts
-    //Add first account the the state
+    const accounts = await web3.eth.getAccounts()
+    console.log(accounts)
+    setAccounts(accounts)
 
     //Get network ID
+    const networkId = await web3.eth.net.getId()
     //Get network data
+  
     //Check if net data exists, then
       //Assign dvideo contract to a variable
       //Add dvideo to the state
